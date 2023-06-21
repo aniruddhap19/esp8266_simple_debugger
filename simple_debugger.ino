@@ -262,6 +262,10 @@ void loop() {
     ;;;
   }
   str=Serial.readString();
+<<<<<<< HEAD
+=======
+  Serial.println("line read:");
+>>>>>>> 233c6ecfc48b5ed7a15770527a13c4e2d23e5527
   i=strcmp(str.c_str(),gp_high);
   if(i==0){GPIO_HIGH_MODE();
   goto skip;}

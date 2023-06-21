@@ -1,8 +1,4 @@
-# esp8266_simple_debugger
+# esp8266_simple_debugger using pc(usb to uart)
 [CURRENT VERSION]
-Debugging GPIO PINS BY TURNING THEM HIGH OR LOW
-
-
-
-[FUTURE VERSIONS]
-DATA READ AND OUTPUT 
+Functions
+GPIO PINs can be set high/low
