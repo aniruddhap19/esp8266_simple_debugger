@@ -190,7 +190,10 @@ void loop() {
     ;;;
   }
   str=Serial.readString();
+<<<<<<< HEAD
   Serial.println("line read:");
+=======
+>>>>>>> ba73bf451a82ddd41e490ff13118f6aa992fd020
   i=strcmp(str.c_str(),gp_high);
   if(i==0){HIGH_SET();}
   j=strcmp(str.c_str(),gp_low);
