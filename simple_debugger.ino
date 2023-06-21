@@ -1,8 +1,19 @@
+#define GPIO_ENABLE 0x6000030c
+#define GPIO_IN 0x60000318
 char gp_low[6]="gplow";
 char help[5]="help";
 char gp_high[7]="gphigh";
-void GPIO_HIGH_MODE(int a){
-switch (a)
+char gp_read[7]="gpread";
+void GPIO_HIGH_MODE(){
+int x;
+sta:
+  Serial.println("GPIO PIN");
+      while(Serial.available()==0){
+        ;
+        ;
+      }
+      x=Serial.parseInt();
+switch (x)
 {
 case 0:
   PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO0_U,0);
@@ -70,12 +81,21 @@ case 15:
   break;
 default:
   Serial.println("invaild statement");
-  break;
+  goto sta;
 }
+Serial.println("PIN SET HIGH");
 }
 
-void GPIO_LOW_MODE(int a){
-switch (a)
+void GPIO_LOW_MODE(){
+int x;
+star:
+  Serial.println("GPIO PIN");
+      while(Serial.available()==0){
+        ;
+        ;
+      }
+      x=Serial.parseInt();
+switch (x)
 {
 case 0:
   PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO0_U,0);
@@ -143,62 +163,117 @@ case 15:
   break;
 default:
   Serial.println("invaild statement");
-  break;
+  goto star;
 }
+Serial.println("PIN SET LOW");
 }
+
+int GPIO_READ(){
+  int i,level,l;
+  ret:
+  Serial.println("(1)Input at this instant\n(2)Exit");
+  while(Serial.available()==0){
+    ;
+    ;
+  }
+  l=Serial.parseInt();
+  if(l==1){
+    x:
+    Serial.println("(1)Specific pin\n(2)All pins");
+    while(Serial.available()==0){
+    ;
+    ;
+  }
+  l=Serial.parseInt();
+  if(l==1){
+    z:
+    Serial.println("PIN:");
+    while(Serial.available()==0){
+    ;
+    ;
+  }
+  i=Serial.parseInt();
+  if(i<16){
+  level=GPIO_REG_READ(GPIO_IN);
+  decToBinary(level,i,1);}
+  else{
+    Serial.println("invalid cmd");
+    goto z;
+  }
+  }
+  else if (l==2)
+  {
+    level=GPIO_REG_READ(GPIO_IN);
+    decToBinary(level,0,0);
+  }
+  else{
+    Serial.println("invalid cmd");
+    goto x;
+  }
+  }
+  else if(l==2){
+    return 0;
+  }
+  else{
+   Serial.println("invalid cmd");
+   goto ret; 
+  }
+  return 0;
+}
+
+
+void decToBinary(int n,int x,int boo)
+{
+    int binaryNum[16];
+    int i = 0;
+    while (n > 0) {
+        binaryNum[i] = n % 2;
+        n = n / 2;
+        i++;
+    }
+    if(boo==0){
+    for (int j = i - 1; j >= 0; j--){
+        Serial.print(binaryNum[j]);}
+        Serial.println("\nfirst digit MSB/GPIO 16");}
+    if(boo==1){
+      Serial.print(binaryNum[x]);
+    }
+}
+
 
 void setup() {
   Serial.begin(9600);
   Serial.println("process start\n:>");
 }
 
-void HIGH_SET(){
-  int x;
-  Serial.println("GPIO PIN");
-      while(Serial.available()==0){
-        ;
-        ;
-      }
-      x=Serial.parseInt();
-      GPIO_HIGH_MODE(x);
-      Serial.println("PIN SET HIGH");
-}
-void LOW_SET(){
-  int x;
-  Serial.println("GPIO PIN");
-      while(Serial.available()==0){
-        ;
-        ;
-      }
-      x=Serial.parseInt();
-      GPIO_LOW_MODE(x);
-      Serial.println("PIN SET LOW");
-}
-
 void HELP(){
   Serial.println("gplow - setting gpio pin as low, enter the required gpio pin after entering command");
   Serial.println("gphigh - setting gpio pin as high, enter the required gpio pin after entering command");
+  Serial.println("gpread - reads from gpio pin, enter the pin number to read after entering cmd");
 }
 void INVALID_CMD(){
   Serial.println("Invalid command\nrefer information from the cmd - help");
 }
 
 void loop() {
-  int i,j,k;
+  int i;
   String str;
   while(Serial.available()==0){
     ;;;
   }
   str=Serial.readString();
-<<<<<<< HEAD
-  Serial.println("line read:");
-=======
->>>>>>> ba73bf451a82ddd41e490ff13118f6aa992fd020
   i=strcmp(str.c_str(),gp_high);
-  if(i==0){HIGH_SET();}
-  j=strcmp(str.c_str(),gp_low);
-  if(j==0){LOW_SET();}
-  k=strcmp(str.c_str(),help);
-  if(k==0){HELP();}
-  if((i!=0)&&(j!=0)&&(k!=0)){INVALID_CMD();}
+  if(i==0){GPIO_HIGH_MODE();
+  goto skip;}
+  i=strcmp(str.c_str(),gp_low);
+  if(i==0){GPIO_LOW_MODE();
+  goto skip;}
+  i=strcmp(str.c_str(),help);
+  if(i==0){HELP();}
+  i=strcmp(str.c_str(),gp_read);
+  if(i==0){GPIO_READ();
+  goto skip;}
+  if(i!=0){INVALID_CMD();}
+  skip:
+  ;
 }
