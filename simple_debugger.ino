@@ -1,4 +1,3 @@
-#define GPIO_ENABLE 0x6000030c
 #define GPIO_IN 0x60000318
 char gp_low[6]="gplow";
 char help[5]="help";
@@ -262,10 +261,6 @@ void loop() {
     ;;;
   }
   str=Serial.readString();
-<<<<<<< HEAD
-=======
-  Serial.println("line read:");
->>>>>>> 233c6ecfc48b5ed7a15770527a13c4e2d23e5527
   i=strcmp(str.c_str(),gp_high);
   if(i==0){GPIO_HIGH_MODE();
   goto skip;}
@@ -273,7 +268,8 @@ void loop() {
   if(i==0){GPIO_LOW_MODE();
   goto skip;}
   i=strcmp(str.c_str(),help);
-  if(i==0){HELP();}
+  if(i==0){HELP();
+  goto skip;}
   i=strcmp(str.c_str(),gp_read);
   if(i==0){GPIO_READ();
   goto skip;}
