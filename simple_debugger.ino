@@ -192,44 +192,11 @@ void loop() {
     ;
   }
   str=Serial.readString();
-  Serial.println("line read:");
-  //i=strcmp(str.c_str(),gp_high);
-  //if(i==0){HIGH_SET();}
-  //j=strcmp(str.c_str(),gp_low);
-  //if(j==0){LOW_SET();}
-  //k=strcmp(str.c_str(),help);
-  //if(k==0){HELP();}
-  //if((i!=0)&&(j!=0)&&(k!=0)){INVALID_CMD();}
-
-if(strcmp(str.c_str(),gp_high)==0){
-  Serial.println("GPIO PIN TO BE SET HIGH: ");
-  while(Serial.available()==0){
-    ;
-    ;
-    ;
-  }
-  i = Serial.parseInt();
-  GPIO_HIGH_MODE(i);
-  Serial.println("GPIO IS SET HIGH");
-  }
-  else if (strcmp(str.c_str(),gp_low)==0)
-  {
-  Serial.println("GPIO PIN TO BE SET LOW: ");
-  while(Serial.available()==0){
-    ;
-    ;
-    ;
-  }
-  i = Serial.parseInt();
-  GPIO_LOW_MODE(i);
-  Serial.println("GPIO IS SET LOW");
-  
-  }
-  else if(strcmp(str.c_str(),help)==0){
-    Serial.println("gplow - setting gpio pin as low, enter the required gpio pin after entering command");
-    Serial.println("gphigh - setting gpio pin as high, enter the required gpio pin after entering command");
-  }
-  else{
-    Serial.println("Invalid command\nrefer information from the cmd - help");
-  }
+  i=strcmp(str.c_str(),gp_high);
+  if(i==0){HIGH_SET();}
+  j=strcmp(str.c_str(),gp_low);
+  if(j==0){LOW_SET();}
+  k=strcmp(str.c_str(),help);
+  if(k==0){HELP();}
+  if((i!=0)&&(j!=0)&&(k!=0)){INVALID_CMD();}
 }
