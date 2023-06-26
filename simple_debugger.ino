@@ -1,4 +1,5 @@
 #define GPIO_IN 0x60000318
+#define GPIO_ENABLE_W1TC 0x60000314 
 char gp_low[6]="gplow";
 char help[5]="help";
 char gp_high[7]="gphigh";
@@ -168,6 +169,7 @@ Serial.println("PIN SET LOW");
 }
 
 int GPIO_READ(){
+  GPIO_REG_WRITE(GPIO_ENABLE_W1TC,0xffff);
   int i,level,l;
   ret:
   Serial.println("(1)Input at this instant\n(2)Exit");
@@ -239,7 +241,6 @@ void decToBinary(int n,int x,int boo)
     }
 }
 
-
 void setup() {
   Serial.begin(9600);
   Serial.println("process start\n:>");
@@ -253,6 +254,7 @@ void HELP(){
 void INVALID_CMD(){
   Serial.println("Invalid command\nrefer information from the cmd - help");
 }
+
 
 void loop() {
   int i;
